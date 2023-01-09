@@ -21,16 +21,15 @@ inotifywait --exclude "${exclude:-\$^}" "${recursive}" --monitor "${!array[@]}" 
 		fi
 	    ;;
 	
-	MOVED_FROM|DELETE*)
+	MOVED_FROM*|DELETE*)
 		if [[ $? -eq 0 ]]; then
 	            if [[ -n ${file} ]]; then
-              		 rm -rf "${array["${directory}"]}${file}"
+			sym_remove "${array["${directory}"]}${file}"
+              		rm -rf "${array["${directory}"]}${file}"
 	            else
-        	        rm -rf  "${array["${directory}"]}"
+			 sym_remove "${array["${directory}"]}"
+        	         rm -rf  "${array["${directory}"]}"
 	            fi
-		else
-
-                            sym_remove "${array["${directory}"]}${file}"
                 fi
             ;;
 
